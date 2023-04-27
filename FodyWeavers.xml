@@ -1,0 +1,13 @@
+<Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
+    <Costura>
+        <IncludeAssemblies>
+            FreeImage-dotnet-core
+        </IncludeAssemblies>
+        <Unmanaged32Assemblies>
+            FreeImage
+        </Unmanaged32Assemblies>
+        <Unmanaged64Assemblies>
+            FreeImage
+        </Unmanaged64Assemblies>
+    </Costura>
+</Weavers>
