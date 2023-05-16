@@ -15,8 +15,8 @@
         <EmbeddedResource Include=".\Costura32\FreeImage.dll" />
         <EmbeddedResource Include=".\Costura64\FreeImage.dll" />
         <EmbeddedResource Include=".\assets\Hats\*" />
-        <Reference Include="TOHTOR">
-            <HintPath>E:\SteamLibrary\steamapps\common\Among Us\BepInEx\plugins\TOHTOR.dll</HintPath>
+        <Reference Include="Lotus">
+            <HintPath>E:\SteamLibrary\steamapps\common\Among Us\BepInEx\plugins\Lotus.dll</HintPath>
         </Reference>
         <PackageReference Include="AmongUs.GameLibs.Steam" Version="2023.3.28" />
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.668" PrivateAssets="all" />

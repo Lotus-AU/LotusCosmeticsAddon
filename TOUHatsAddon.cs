@@ -1,5 +1,5 @@
 using HarmonyLib;
-using TOHTOR.Addons;
+using Lotus.Addons;
 
 namespace TOUHats;
 
