@@ -18,7 +18,7 @@
         <Reference Include="Lotus">
             <HintPath>E:\SteamLibrary\steamapps\common\Among Us\BepInEx\plugins\Lotus.dll</HintPath>
         </Reference>
-        <PackageReference Include="AmongUs.GameLibs.Steam" Version="2023.3.28" />
+        <PackageReference Include="AmongUs.GameLibs.Steam" Version="2023.6.13" />
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.668" PrivateAssets="all" />
         <PackageReference Include="Samboy063.Cpp2IL.Core" Version="2022.1.0-development.866" />
 

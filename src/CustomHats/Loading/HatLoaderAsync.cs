@@ -15,21 +15,27 @@ using VentLib.Utilities.Optionals;
 
 namespace TOUHats.CustomHats.Loading;
 
-public class HatLoaderAsync
+public static class HatLoaderAsync
 {
     private const string HAT_RESOURCE_NAMESPACE = "TOUHats.assets.Hats";
     private const string HAT_METADATA_JSON = "metadata.json";
     private const int HAT_ORDER_BASELINE = 99;
     
+    public static Dictionary<string, Sprite> Hats = new();
+    
     private static Assembly Assembly => typeof(TOUHatsAddon).Assembly;
     private static List<HatData> _allHats;
     private static bool LoadedHats;
 
-    public static void LoadAllHats()
+    private static InventoryManager inventoryManager;
+
+    public static void LoadAllHats(InventoryManager inv)
     {
         if (LoadedHats || !DestroyableSingleton<HatManager>.InstanceExists || DestroyableSingleton<HatManager>.Instance.allHats.Count == 0)
             return;
+        VentLogger.High("Loading all TOUR Hats. Addon by Tealeaf, all credits to TOU/TOUR", "HatLoader");
         LoadedHats = true;
+        inventoryManager = inv;
         
         _allHats = DestroyableSingleton<HatManager>.Instance.allHats.ToArray().ToList();
         _allHats.ForEach((Action<HatData>)(x => x.StoreName = "Vanilla"));
@@ -37,8 +43,7 @@ public class HatLoaderAsync
         LoadJson().Credits.ForEach(json => 
             Async.ExecuteThreaded(
                 () => RawLoadTexture(json), 
-                MainThreadAnchor.ScheduleOnMainThread<Optional<RawTextureData>>(optional => GenerateHatBehaviour(json).Invoke(optional))
-                ));
+                MainThreadAnchor.ScheduleOnMainThread<Optional<RawTextureData>>(optional => GenerateHatBehaviour(json).Invoke(optional))));
     }
 
     private static Action<HatData> HatDataCallback(HatMetadataElement metadata)
@@ -56,7 +61,7 @@ public class HatLoaderAsync
     
     private static Action<Optional<RawTextureData>> GenerateHatBehaviour(HatMetadataElement metadata)
     {
-        return optional => optional.Map(GenerateHatBehaviour).IfPresent(HatDataCallback(metadata));
+        return optional => optional.Map(rtd => GenerateHatBehaviour(rtd, metadata)).IfPresent(HatDataCallback(metadata));
     }
 
     private static RawTextureData FinalizeLoadTexture(FIBITMAP fibitmap)
@@ -82,7 +87,7 @@ public class HatLoaderAsync
 
     private static Optional<RawTextureData> RawLoadTexture(HatMetadataElement metadata)
     {
-        VentLogger.Trace($"Loading Hat ({metadata.Id}): {metadata.Name} By: {metadata.Artist}");
+        VentLogger.Log(LogLevel.All,$"Loading Hat ({metadata.Id}): {metadata.Name} By: {metadata.Artist}");
         var stream = Assembly.GetManifestResourceStream($"{HAT_RESOURCE_NAMESPACE}.{metadata.Id}.png");
         return Optional<Stream>.Of(stream).Map(FreeImage.LoadFromStream).Map(FinalizeLoadTexture);
     }
@@ -97,7 +102,7 @@ public class HatLoaderAsync
         });
     }
 
-    private static HatData GenerateHatBehaviour(RawTextureData rawTexture)
+    private static HatData GenerateHatBehaviour(RawTextureData rawTexture, HatMetadataElement metadataElement)
     {
         Texture2D tex = new(rawTexture.Width, rawTexture.Height, TextureFormat.BGRA32,false);
         
@@ -105,17 +110,22 @@ public class HatLoaderAsync
         tex.Apply();
 
         var sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.FullRect);
-
         var hat = ScriptableObject.CreateInstance<HatData>();
-        var a = ScriptableObject.CreateInstance<HatViewData>();
-        var b = new AddressableLoadWrapper<HatViewData>();
-        b.viewData = a;
-        a.MainImage = sprite;
-        hat.hatViewData = b;
+        
+        Hats[metadataElement.Name] = sprite;
+        
+        hat.SpritePreview = sprite;
         hat.ChipOffset = new Vector2(-0.1f, 0.35f);
 
         hat.InFront = true;
         hat.NoBounce = true;
         return hat;
+    }
+    
+    public static byte[] ReadFully(this Stream input)
+    {
+        using var ms = new MemoryStream();
+        input.CopyTo(ms);
+        return ms.ToArray();
     }
 }
