@@ -5,10 +5,12 @@ using AmongUs.Data;
 using HarmonyLib;
 using TMPro;
 using UnityEngine;
+using VentLib.Utilities.Extensions;
 using Object = UnityEngine.Object;
 
 namespace TOUHats.CustomHats
 {
+
     [HarmonyPatch(typeof(HatsTab), nameof(HatsTab.OnEnable))]
     public static class HatsTab_OnEnable
     {
@@ -27,7 +29,7 @@ namespace TOUHats.CustomHats
             }
 
             foreach (ColorChip instanceColorChip in __instance.ColorChips)
-                Object.Destroy(instanceColorChip.gameObject);
+                instanceColorChip.gameObject.Destroy();
             __instance.ColorChips.Clear();
             var groupNameText = __instance.GetComponentInChildren<TextMeshPro>(false);
             int hatIdx = 0;
@@ -35,7 +37,7 @@ namespace TOUHats.CustomHats
             {
                 var text = Object.Instantiate(groupNameText, __instance.scroller.Inner);
                 text.gameObject.transform.localScale = Vector3.one;
-                Object.Destroy(text.GetComponent<TextTranslatorTMP>());
+                text.GetComponent<TextTranslatorTMP>().Destroy();
                 text.text = groupName;
                 text.alignment = TextAlignmentOptions.Center;
                 text.fontSize = 3f;
@@ -57,6 +59,10 @@ namespace TOUHats.CustomHats
                     colorChip.Button.OnClick.AddListener((Action)(() => __instance.SelectHat(hat)));
                     colorChip.Inner.SetHat(hat, __instance.HasLocalPlayer() ? PlayerControl.LocalPlayer.Data.DefaultOutfit.ColorId : (int)DataManager.Player.Customization.Color);
                     colorChip.Inner.transform.localPosition = hat.ChipOffset + new Vector2(0f, -0.3f);
+                    // if (SubmergedCompatibility.Loaded)
+                    // {
+                    //     colorChip.gameObject.transform.Find("HatParent").transform.localPosition = new Vector3(-0.1f, 0.05f, -2);
+                    // }
                     colorChip.Tag = hat;
                     __instance.ColorChips.Add(colorChip);
                     hatIdx += 1;
