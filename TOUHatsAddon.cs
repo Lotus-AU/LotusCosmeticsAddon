@@ -3,6 +3,7 @@ using Lotus.Addons;
 using TOUHats.Version;
 using System.IO;
 using System.Reflection;
+using VentLib.Logging;
 
 namespace TOUHats;
 
@@ -13,7 +14,8 @@ public class TOUHatsAddon: LotusAddon
     
     public override void Initialize()
     {
-        RuntimeLocation = Path.GetDirectoryName(Assembly.GetAssembly(typeof(TOUHatsAddon)).Location);
+        RuntimeLocation = Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
+        StaticLogger.Debug($"PL Runtime Location: {RuntimeLocation}");
         harmony = new Harmony("com.discussions.touhats");
         harmony.PatchAll();
     }

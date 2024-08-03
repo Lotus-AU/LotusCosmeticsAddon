@@ -14,7 +14,7 @@
     <ItemGroup>
         <EmbeddedResource Include=".\Costura32\FreeImage.dll" />
         <EmbeddedResource Include=".\Costura64\FreeImage.dll" />
-        <PackageReference Include="VentFrameworkContinued" Version="1.1.0" />
+        <Reference Include="$(AmongUs)\BepInEx\plugins\VentFrameworkContinued.dll" />
         <Reference Include="$(AmongUs)\BepInEx\plugins\Lotus.dll" />
 
         <PackageReference Include="AmongUs.GameLibs.Steam" Version="2024.6.18" PrivateAssets="all" />
