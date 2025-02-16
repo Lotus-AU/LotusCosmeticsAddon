@@ -1,15 +1,15 @@
 using Hazel;
 
-namespace TOUHats.Version;
+namespace LotusCosmetics.Version;
 
 /// <summary>
 /// Version Representing this Addon
 /// </summary>
-public class TOUHatsVersion: VentLib.Version.Version
+public class LotusCosmeticsVersion: VentLib.Version.Version
 {
     public override VentLib.Version.Version Read(MessageReader reader)
     {
-        return new TOUHatsVersion();
+        return new LotusCosmeticsVersion();
     }
 
     protected override void WriteInfo(MessageWriter writer)
@@ -18,8 +18,8 @@ public class TOUHatsVersion: VentLib.Version.Version
 
     public override string ToSimpleName()
     {
-        return "Town of Us Hats";
+        return "Project Lotus Cosmetics";
     }
 
-    public override string ToString() => "TownOfUsHats";
+    public override string ToString() => "ProjectLotusCosmetics";
 }

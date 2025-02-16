@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace TOUHatss.CustomHats
+namespace LotusCosmetics.CustomHats
 {
     public static class HatCache
     {

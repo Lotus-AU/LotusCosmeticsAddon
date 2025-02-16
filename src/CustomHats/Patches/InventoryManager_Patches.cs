@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace TOUHats.CustomHats.Patches
+namespace LotusCosmetics.CustomHats.Patches
 {
     [HarmonyPatch(typeof(InventoryManager), nameof(InventoryManager.CheckUnlockedItems))]
     public class InventoryManager_Patches

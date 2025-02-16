@@ -8,7 +8,7 @@ using UnityEngine;
 using VentLib.Utilities.Extensions;
 using Object = UnityEngine.Object;
 
-namespace TOUHats.CustomHats
+namespace LotusCosmetics.CustomHats
 {
 
     [HarmonyPatch(typeof(HatsTab), nameof(HatsTab.OnEnable))]

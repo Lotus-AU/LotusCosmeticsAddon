@@ -1,4 +1,4 @@
-namespace TOUHats.CustomHats
+namespace LotusCosmetics.CustomHats
 {
     public class HatMetadataElement
     {

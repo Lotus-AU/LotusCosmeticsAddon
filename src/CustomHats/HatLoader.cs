@@ -3,19 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
+using Il2CppSystem.Linq;
 using UnityEngine.AddressableAssets;
 using VentLib.Logging;
 using Lotus.Managers;
+using UnityEngine;
 using VentLib.Utilities;
+using VentLib.Utilities.Extensions;
 
-namespace TOUHats.CustomHats;
+namespace LotusCosmetics.CustomHats;
 
 public static class HatLoader
 {
     private static readonly StandardLogger log = LoggerFactory.GetLogger<StandardLogger>(typeof(HatLoader));
-    private static Assembly Assembly => typeof(TOUHatsAddon).Assembly;
 
-    private static bool LoadedHats = false;
+    private static bool LoadedHats;
 
     internal static void LoadHatsRoutine()
     {
@@ -29,7 +31,7 @@ public static class HatLoader
     {
         try
         {
-            var hatBehaviours = DiscoverHatBehaviours();
+            var hatBehaviours = DiscoverHatBehaviours().Distinct().ToList();
 
             var hatData = new List<HatData>();
             hatData.AddRange(DestroyableSingleton<HatManager>.Instance.allHats);
@@ -54,11 +56,10 @@ public static class HatLoader
     private static List<HatData> DiscoverHatBehaviours()
     {
         var hatBehaviours = new List<HatData>();
-        // var path = "TOUHats.assets.touhats.catalog";
-        var path = TOUHatsAddon.RuntimeLocation + "\\touhats.catalog";
+        var path = LotusCosmeticsAdon.RuntimeLocation + "\\lotushats.catalog";
         Addressables.AddResourceLocator(Addressables.LoadContentCatalog(path).WaitForCompletion());
-        var all_hat_locations = Addressables.LoadResourceLocationsAsync("touhats").WaitForCompletion();
-        var assets = Addressables.LoadAssetsAsync<HatData>(all_hat_locations, null, false).WaitForCompletion();
+        var allHatLocations = Addressables.LoadResourceLocationsAsync("lotushats").WaitForCompletion();
+        var assets = Addressables.LoadAssetsAsync<HatData>(allHatLocations, null, false).WaitForCompletion();
         var array = new Il2CppSystem.Collections.Generic.List<HatData>(assets.Pointer);
         hatBehaviours.AddRange(array.ToArray());
         return hatBehaviours;

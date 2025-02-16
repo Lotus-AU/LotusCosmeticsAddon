@@ -4,3 +4,4 @@ bin/
 FodyWeavers.xsd
 FodyWeavers.xml
 /.vs/
+/.idea/

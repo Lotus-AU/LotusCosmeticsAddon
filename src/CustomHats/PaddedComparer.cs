@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TOUHats.CustomHats
+namespace LotusCosmetics.CustomHats
 {
     public class PaddedComparer<T> : IComparer<T> where T : IComparable
     {

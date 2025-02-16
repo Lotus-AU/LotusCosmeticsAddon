@@ -6,7 +6,7 @@
         <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
         <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
         <AmongUs>D:\Games\AmongUs\steam\Lotus</AmongUs>
-        <RootNamespace>TOUHats</RootNamespace>
+        <RootNamespace>LotusCosmetics</RootNamespace>
         <LangVersion>latest</LangVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>

@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace TOUHats.CustomHats.Patches
+namespace LotusCosmetics.CustomHats.Patches
 {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.Awake))]
     public class AmongUsClient_Patches
