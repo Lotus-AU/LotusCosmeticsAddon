@@ -46,12 +46,4 @@ public static class PathPatches
     {
         __result = Path.Combine(BasePath, "Nameplates");
     }
-
-    [HarmonyPatch(nameof(CorsacCosmetics.PluginCompat), nameof(CorsacCosmetics.PluginCompat.QueueBundleDownload))]
-    [HarmonyPrefix]
-    private static bool QueueBundleDownloadPrefix(string url)
-    {
-        if (url is "https://github.com/XtraCube/CorsacCosmetics/releases/download/2.0.0/default.ccb") return false;
-        return true;
-    }
 }
