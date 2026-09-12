@@ -7,8 +7,17 @@ namespace LotusCosmetics;
 [HarmonyPatch(typeof(CorsacCosmetics.Cosmetics.CosmeticPaths))]
 public static class PathPatches
 {
-    private static readonly string BasePath =
+    public static readonly string BasePath =
         Path.Combine(PluginDataManager.ModifiableDataDirectory.FullName, "Cosmetics");
+    
+    public static void CreateDirectories()
+    {
+        Directory.CreateDirectory(BasePath);
+        Directory.CreateDirectory(Path.Combine(BasePath, "Bundles"));
+        Directory.CreateDirectory(Path.Combine(BasePath, "Hats"));
+        Directory.CreateDirectory(Path.Combine(BasePath, "Visors"));
+        Directory.CreateDirectory(Path.Combine(BasePath, "Nameplates"));
+    }
 
     public static bool Prepare() => !LotusCosmeticsAddon.CorsacIndependent;
 
