@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
@@ -25,10 +26,20 @@ public static class CosmeticManager
         resource.CopyTo(memoryStream);
         byte[] bytes = memoryStream.ToArray();
         
-        RegisterBundleBytes(bytes); 
-        CorsacCosmetics.PluginCompat.AddBundleBytes(bytes);
+        RegisterBundleBytes(bytes);
+        if (LotusCosmeticsAddon.CorsacIndependent)
+            CorsacCosmetics.PluginCompat.QueueDiscoveryCoroutine(DeferredSetup(bytes));
+        else 
+            CorsacCosmetics.PluginCompat.AddBundleBytes(bytes);
     }
     
+    private static IEnumerator DeferredSetup(byte[] bytes)
+    {
+        if (!Directory.Exists(PathPatches.BasePath)) PathPatches.CreateDirectories();
+        CorsacCosmetics.PluginCompat.AddFolderSource(PathPatches.BasePath);
+        CorsacCosmetics.PluginCompat.AddBundleBytes(bytes);
+        yield break;
+    }
     
     public static void RegisterBundleBytes(byte[] bundleBytes) 
     {
