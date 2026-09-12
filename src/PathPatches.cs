@@ -55,6 +55,4 @@ public static class PathPatches
     {
         __result = Path.Combine(BasePath, "Nameplates");
     }
-    
-    
 }
