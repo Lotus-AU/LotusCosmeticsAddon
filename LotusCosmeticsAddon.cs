@@ -1,12 +1,10 @@
 using System;
-using System.Collections.Generic;
 using HarmonyLib;
 using Lotus.Addons;
 using LotusCosmetics.Version;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using VentLib.Logging;
 
@@ -14,11 +12,12 @@ namespace LotusCosmetics;
 
 public class LotusCosmeticsAddon: LotusAddon
 {
-    public static string RuntimeLocation;
-    private Harmony harmony;
     public static LotusCosmeticsAddon Instance { get; private set; }
     
     public static bool CorsacIndependent = false; // if user has corsac installed standalone
+    public static string RuntimeLocation;
+    
+    private Harmony harmony;
     
     public override void Initialize() // the order here is important
     {
@@ -27,7 +26,6 @@ public class LotusCosmeticsAddon: LotusAddon
         StaticLogger.Debug($"PL Runtime Location: {RuntimeLocation}");
         #endif
         harmony = new Harmony("com.discussions.lotuscosmetics");
-        
         
         FileInfo touBundleInfo = new(Path.Combine(RuntimeLocation, "touhats.bundle"));
         FileInfo touCatalogInfo = new(Path.Combine(RuntimeLocation, "touhats.catalog"));
@@ -44,8 +42,6 @@ public class LotusCosmeticsAddon: LotusAddon
             touCatalogInfo?.Delete();
             oldCatalogInfo?.Delete();
         }
-        
-        
         
         // theoretically both of these checks could fail in the scenario where the user is on a beta version of Starlight
         // and is using lotus from marketplace & corsac from a local file - or lotus from local file & corsac from marketplace, idk
@@ -77,12 +73,11 @@ public class LotusCosmeticsAddon: LotusAddon
             ((BasePlugin)Activator.CreateInstance(corsacType))!.Load();
         }
         
-        
         CosmeticManager.LoadCosmetics();
         Instance = this;
     }
 
-    public override string Name { get; } = "Project Lotus Cosmetics";
+    public override string Name { get; } = "LotusCosmetics";
 
     public override VentLib.Version.Version Version { get;} = new LotusCosmeticsVersion();
 }
