@@ -1,21 +1,32 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>1.2.5</Version>
+        <Version>1.8.0</Version>
         <TargetFramework>net6.0</TargetFramework>
         <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
         <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-        <AmongUs>D:\Games\AmongUs\steam\Lotus</AmongUs>
+        <AmongUs>C:\repos\AU\AU-Lotus</AmongUs>
         <RootNamespace>LotusCosmetics</RootNamespace>
         <LangVersion>latest</LangVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="./assets/CorsacCosmetics.dll">
+            <LogicalName>LotusCosmetics.CorsacCosmetics.dll</LogicalName>
+        </EmbeddedResource>
+
+        <EmbeddedResource Include="./assets/LotusCosmetics.ccb">
+            <LogicalName>LotusCosmetics.LotusCosmetics.ccb</LogicalName>
+        </EmbeddedResource>
+    </ItemGroup>
     
     <ItemGroup>
         <Reference Include="$(AmongUs)\BepInEx\plugins\VentFrameworkContinued.dll" />
         <Reference Include="$(AmongUs)\BepInEx\plugins\Lotus.dll" />
-
-        <PackageReference Include="AmongUs.GameLibs.Steam" Version="2025.4.15" PrivateAssets="all" />
+        <Reference Include="./assets/CorsacCosmetics.dll" />
+        
+        <PackageReference Include="AmongUs.GameLibs.Steam" Version="2026.8.18" PrivateAssets="all" />
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.735" Private="false" ExcludeAssets="runtime;native" />
         <PackageReference Include="Samboy063.Cpp2IL.Core" Version="2022.1.0-pre-release.19" />
 
@@ -24,10 +35,6 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-    </ItemGroup>
-    
-    <ItemGroup>
-      <Folder Include="src" />
     </ItemGroup>
     
     <ItemGroup>
