@@ -18,8 +18,8 @@ public class LotusCosmeticsVersion: VentLib.Version.Version
 
     public override string ToSimpleName()
     {
-        return "Project Lotus Cosmetics";
+        return "LotusCosmetics";
     }
 
-    public override string ToString() => "ProjectLotusCosmetics";
+    public override string ToString() => "1.8.0";
 }
