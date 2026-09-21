@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <AssemblyName>LotusCosmetics.Bootstrapper</AssemblyName>
+        <Version>1.8.0</Version>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>latest</LangVersion>
+        <RestoreAdditionalProjectSources>
+            https://api.nuget.org/v3/index.json;
+            https://nuget.bepinex.dev/v3/index.json;
+            https://nuget.samboy.dev/v3/index.json
+        </RestoreAdditionalProjectSources>
+        <RootNamespace>LotusCosmetics.Bootstrapper</RootNamespace>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <AmongUsDirectory>C:\repos\AU\AU-Lotus</AmongUsDirectory>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="VentFrameworkContinued">
+            <HintPath>$(AmongUsDirectory)\BepInEx\plugins\VentFrameworkContinued.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Lotus">
+            <HintPath>$(AmongUsDirectory)\BepInEx\plugins\Lotus.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.735" Private="false" ExcludeAssets="runtime;native" />
+        <PackageReference Include="AmongUs.GameLibs.Steam" Version="2025.4.15" PrivateAssets="all" />
+
+        <PackageReference Include="BepInEx.AutoPlugin" Version="1.1.0" PrivateAssets="all" />
+        <PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="2.1.0-rc.1" PrivateAssets="all" ExcludeAssets="runtime" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\LotusCosmetics.Addon\LotusCosmetics.csproj" ReferenceOutputAssembly="false" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Resources\" />
+    </ItemGroup>
+
+    <Target Name="EmbedLotusCosmeticsAddon" BeforeTargets="BeforeBuild">
+        <MSBuild Projects="..\LotusCosmetics.Addon\LotusCosmetics.csproj" Targets="Build" Properties="Configuration=$(Configuration)" />
+        
+        <MSBuild Projects="..\LotusCosmetics.Addon\LotusCosmetics.csproj" Targets="GetTargetPath" Properties="Configuration=$(Configuration)">
+            <Output TaskParameter="TargetOutputs" ItemName="LotusCosmeticsTargetPath" />
+        </MSBuild>
+
+        <Copy SourceFiles="@(LotusCosmeticsTargetPath)" DestinationFolder="$(MSBuildProjectDirectory)\Resources\" SkipUnchangedFiles="false" />
+        
+        <ItemGroup>
+            <EmbeddedResource Include="$(MSBuildProjectDirectory)\Resources\LotusCosmetics.dll">
+                <LogicalName>LotusCosmetics.Bootstrapper.Resources.LotusCosmetics.dll</LogicalName>
+            </EmbeddedResource>
+        </ItemGroup>
+    </Target>
+</Project>

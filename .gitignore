@@ -7,4 +7,6 @@ FodyWeavers.xml
 /.idea/
 LotusCosmetics.sln.DotSettings.user
 
-/assets/LotusCosmetics.ccb
+/LotusCosmetics.Addon/assets/LotusCosmetics.ccb
+/LotusCosmetics.Bootstrapper/assets/LotusCosmetics.dll
+
